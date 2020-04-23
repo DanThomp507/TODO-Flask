@@ -8,9 +8,11 @@
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.4.1",
     "immutability-helper": "^3.0.2",
+    "keycode-js": "^2.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "recompose": "^0.30.0"
   },
   "scripts": {
     "start": "react-scripts start",

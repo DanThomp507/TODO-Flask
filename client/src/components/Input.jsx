@@ -1,4 +1,5 @@
 import React from 'react';
+import enhance from './InputWrapper';
 
 function Input(props) {
   const { value, handleChange, handleKeyUp } = props;
@@ -14,4 +15,4 @@ function Input(props) {
   );
 }
 
-export default Input;
+export default enhance(Input);

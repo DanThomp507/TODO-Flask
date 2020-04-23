@@ -8,7 +8,7 @@ class CheckBox extends Component {
     };
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     const { checked } = e.target;
 
     this.setState({ checked });
@@ -19,7 +19,7 @@ class CheckBox extends Component {
     return (
       <input type="checkbox"
         checked={this.state.checked}
-        onChange={() => this.handleChange()} />
+        onChange={this.handleChange} />
     );
   }
 }
