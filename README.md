@@ -1,3 +1,3 @@
 # TODO App
 
-Built with Python and Flask
+Built with React, Python and Flask
