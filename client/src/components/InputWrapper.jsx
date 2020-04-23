@@ -11,7 +11,6 @@ export default compose(
       const text = e.target.value.trim();
 
       if (e.keyCode === KEY_RETURN && text) {
-        console.log(text)
         addNew(text);
         setValue('');
       }

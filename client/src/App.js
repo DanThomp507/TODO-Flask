@@ -28,14 +28,12 @@ class App extends Component {
   }
 
   addNew = (text) => {
-    console.log(text)
-    let response = addToList(this.state.list, { text, completed: false });
+    let response = addToList([...this.state.list], { text, completed: false });
     response.then(response => response.json())
       .then(data => {
-        console.log(data)
         let updatedList = [...this.state.list, ...data]
-        this.setState({ 
-          list: updatedList 
+        this.setState({
+          list: updatedList
         });
 
       })
@@ -49,35 +47,35 @@ class App extends Component {
     let response = updateStatus(itemId, completed);
     response.then(response => response.json())
       .then(data => {
-        let updatedList = [...this.state.list, ...data]
-        this.setState({ 
-          list: updatedList 
-        });
-
+        if(!this.state.list.includes(data.id) && completed === 1){
+          let updatedList = [...this.state.list, ...data]
+          this.setState({ list: updatedList });
+        }
       })
   }
 
-  deleteItem = (itemId) =>  {
+  deleteItem = (itemId) => {
     let response = deleteItem(itemId);
     response.then(response => response.json())
       .then(data => {
         let updatedList = data
-        this.setState({ 
-          list: updatedList 
+        this.setState({
+          list: updatedList
         });
 
       })
   }
 
   render() {
+    console.log(this.state.list, 'LIST STATE')
     return (
       <div className="container">
         <TodoList
-          list={this.state.list} 
+          list={this.state.list}
           addNew={this.addNew}
           changeStatus={this.changeStatus}
           deleteItem={this.deleteItem}
-          />
+        />
       </div>
     );
   }

@@ -9,15 +9,14 @@ export default function FilteredList(props) {
     );
   }
 
-
   return (
     <ul className="list-unstyled">
-      {items.map(item => (
+      {items.map((item, index) => (
         <TodoItem 
-        key={item.id} 
+        key={index} 
         data={item} 
         changeStatus={changeStatus} 
-        deleteItem={deleteItem} />
+        deleteItem={props.deleteItem} />
       ))}
     </ul>
   );

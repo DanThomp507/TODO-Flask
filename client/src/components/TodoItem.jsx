@@ -3,14 +3,14 @@ import CheckBox from './Checkbox';
 
 export default function TodoItem(props) {
   const { data, changeStatus, deleteItem } = props;
-  const handleChange = (checked) => changeStatus(data.id, checked);
+    const handleChange = (checked) => changeStatus(data.id, checked);
   const handleDelete = (item) => deleteItem(data.id);
   const className = 'todo-item ui-state-default ' + (data._is_done === true ? 'completed' : 'pending');
   return (
-    <li className={className}>
+    <li key={data.id} className={className}>
       <div className="checkbox">
         <label>
-          <CheckBox checked={data._is_done} onChange={handleChange} /> {data.Title}
+          <CheckBox key={data.id} checked={data._is_done} onChange={handleChange} /> {data.Title}
         </label>
         <div style={{ float: "right" }}>
           <a onClick={handleDelete}>Delete</a>
