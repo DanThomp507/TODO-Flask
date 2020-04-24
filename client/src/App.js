@@ -53,17 +53,25 @@ class App extends Component {
 
   changeStatus = (itemId, completed) => {
     updateStatus(itemId, completed)
-    .then(response => response.json())
+      .then(response => response.json())
       .then(data => {
-        if (!this.state.list.includes(data.id) && completed === 1) {
-          let updatedList = [...this.state.list, ...data]
-          this.setState({
-            list: updatedList
-          }, () => {
-            this.handleStatusChange()
-            this.fetchData()
+        // access data object
+        for (let [key, value] of Object.entries(data)) {
+          // if state doesn't include object value
+          if (!this.state.list.includes(value)) {
+            let updatedList = [...data, ...this.state.list]
+            // filter to ensure there are no duplicates in state
+            const uniqueItems = Array.from(new Set(updatedList.map(a => a.id)))
+              .map(id => {
+                return updatedList.find(a => a.id === id)
+              })
+            // sort by object id
+            uniqueItems.sort((a, b) => a.id - b.id)
+            // add updated list to state
+            this.setState({
+              list: uniqueItems
+            })
           }
-          )
         }
       })
   }
