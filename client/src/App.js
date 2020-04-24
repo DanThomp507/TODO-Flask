@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom'
 import './App.css';
 import TodoList from './components/TodoList'
 import {
@@ -10,8 +11,9 @@ import {
 
 class App extends Component {
   // intervalID;
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    console.log(props)
     this.state = {
       list: []
     }
@@ -20,10 +22,6 @@ class App extends Component {
   componentDidMount() {
     this.fetchData()
   }
-
-  // componentWillUnmount() {
-  //   clearTimeout(this.intervalID)
-  // }
 
   fetchData = () => {
     let resp = getAll()
@@ -54,17 +52,24 @@ class App extends Component {
   }
 
   changeStatus = (itemId, completed) => {
-    let response = updateStatus(itemId, completed).then(response => response.json())
-    response.then(data => {
-      if (!this.state.list.includes(data.id) && completed === 1) {
-        let updatedList = [...this.state.list, ...data]
-        this.setState({
-          list: updatedList
-        })
-          this.fetchData()
-          return null
-      }
-    })
+    updateStatus(itemId, completed)
+    .then(response => response.json())
+      .then(data => {
+        if (!this.state.list.includes(data.id) && completed === 1) {
+          let updatedList = [...this.state.list, ...data]
+          this.setState({
+            list: updatedList
+          }, () => {
+            this.handleStatusChange()
+            this.fetchData()
+          }
+          )
+        }
+      })
+  }
+
+  handleStatusChange = () => {
+    this.props.history.push('/')
   }
 
   deleteItem = (itemId) => {
@@ -83,6 +88,7 @@ class App extends Component {
     return (
       <div className="container">
         <TodoList
+          onSuccess={this.handleStatusChange}
           list={this.state.list}
           addNew={this.addNew}
           changeStatus={this.changeStatus}
@@ -93,4 +99,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

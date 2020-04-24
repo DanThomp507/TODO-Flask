@@ -3,7 +3,7 @@ import CheckBox from './Checkbox';
 
 export default function TodoItem(props) {
   const { data, changeStatus, deleteItem } = props;
-  const handleChange = (checked) => changeStatus(data.id, checked);
+  const handleChange = (checked) => changeStatus(data.id, checked)
   const handleDelete = (item) => deleteItem(data.id);
   const className = 'todo-item ui-state-default ' + (data._is_done === 1 ? 'completed' : 'pending');
   return (
@@ -13,7 +13,8 @@ export default function TodoItem(props) {
           <CheckBox key={data.id} checked={data._is_done} onChange={handleChange} /> {data.Title}
         </label>
         <div className='delete' style={{ float: "right" }}>
-          <a onClick={handleDelete}>Delete</a>
+        <button type="button" className="btn btn-primary" onClick={handleDelete}>Delete</button>
+          {/* <button onClick={handleDelete}>Delete</button> */}
         </div>
       </div>
     </li>

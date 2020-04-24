@@ -16,7 +16,7 @@ export default function FilteredList(props) {
         key={index} 
         data={item} 
         changeStatus={changeStatus} 
-        deleteItem={props.deleteItem} />
+        deleteItem={deleteItem} />
       ))}
     </ul>
   );

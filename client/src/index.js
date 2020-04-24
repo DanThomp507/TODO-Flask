@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 // Add bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
 // import './index.css';
@@ -9,7 +10,9 @@ import * as serviceWorker from './serviceWorker';
 import './style/index.css';
 
 ReactDOM.render(
-  <App/>,
+  <Router>
+    <App />,
+  </Router>,
   document.getElementById('root')
 );
 

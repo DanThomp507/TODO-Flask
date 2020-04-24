@@ -4,6 +4,7 @@ import Header from './Header';
 import FilteredList from './FilteredList';
 
 export default function TodoList(props) {
+
   const { list, changeStatus, deleteItem, addNew } = props;
   const items = list;
   return (
@@ -13,7 +14,9 @@ export default function TodoList(props) {
           <Header addNew={props.addNew} />
           {props
             ? 
-            <FilteredList {...{items, changeStatus, deleteItem, addNew}} />
+            <FilteredList
+            {...{items, changeStatus, deleteItem, addNew}} 
+            />
             :
             <p>No items in the list</p>
           }

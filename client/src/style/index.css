@@ -35,6 +35,7 @@ li.ui-state-default {
     background: #fff;
     border: none;
     border-bottom: 1px solid #ddd;
+    height: 50px;
 }
 
 li.ui-state-default:last-child {
