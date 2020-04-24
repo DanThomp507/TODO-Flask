@@ -107,3 +107,69 @@ footer {
     -webkit-transform: scale(0.97);
     transform: scale(0.97);
 }
+
+.buttons .button {
+    cursor: pointer;
+    color: inherit;
+    margin: 3px;
+    padding: 4px 8px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    background-color: #007bff;
+    border-color: white;
+    height: 30px;
+    width: 30px;
+}
+
+.buttons .button:hover, .buttons .button.selected {
+    opacity: 1;
+    border-color: #ddd;
+}
+
+.buttons .add, .search {
+    background-color: #007bff;
+    border-radius: 6px;
+    -webkit-transform: scale(0.97);
+    transform: scale(0.97);
+}
+
+.buttons .add.selected {
+    border-color: #FF8300;
+    background-color: #FF8300;
+    border-radius: 6px;
+    -webkit-transform: scale(0.97);
+    transform: scale(0.97);
+}
+
+.buttons .search.selected {
+    border-color: #FF8300;
+    background-color: #FF8300;
+    border-radius: 6px;
+    -webkit-transform: scale(0.97);
+    transform: scale(0.97);
+}
+
+.buttons .search:hover, .add:hover {
+    border-radius: 6px;
+    -webkit-transform: scale(0.97);
+    transform: scale(0.97);
+}
+
+footer .buttons {
+    border-right: 1px solid #ccc;
+    margin-right: 15px;
+    padding-right: 10px;
+    height: 50px;
+}
+
+.count {
+    color: inherit;
+    margin: 3px;
+    padding: 4px 8px;
+    text-decoration: none;
+    /* border: 1px solid transparent;
+    border-radius: 3px;
+    background-color: #007bff;
+    border-color: white; */
+}

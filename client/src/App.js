@@ -9,6 +9,7 @@ import {
   deleteItem
 } from './services/api';
 import { FILTER_ALL } from './services/filters';
+import { MODE_CREATE, MODE_NONE } from './services/modes';
 
 class App extends Component {
   // intervalID;
@@ -17,7 +18,8 @@ class App extends Component {
     console.log(props)
     this.state = {
       list: [],
-      filter: FILTER_ALL
+      filter: FILTER_ALL,
+      mode: MODE_CREATE
     }
   }
 
@@ -94,13 +96,23 @@ class App extends Component {
       })
   }
   changeFilter = (filter) => {
-    this.setState({filter});
-}
+    this.setState({
+      filter
+    });
+  }
+
+  changeMode = (mode = MODE_NONE) => {
+    this.setState({
+      mode
+    });
+  }
 
   render() {
     return (
       <div className="container">
         <TodoList
+          mode={this.state.mode}
+          changeMode={this.changeMode}
           changeFilter={this.changeFilter}
           filter={this.state.filter}
           onSuccess={this.handleStatusChange}

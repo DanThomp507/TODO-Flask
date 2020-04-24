@@ -7,7 +7,7 @@ import { applyFilter } from '../services/filters'
 
 export default function TodoList(props) {
 
-  const { list, changeStatus, deleteItem, addNew, filter, changeFilter } = props;
+  const { list, changeStatus, deleteItem, addNew, filter, changeFilter, mode, changeMode } = props;
   const items = applyFilter(list, filter);
   const count = list.length
   return (
@@ -23,7 +23,7 @@ export default function TodoList(props) {
             :
             <p>No items in the list</p>
           }
-           <Footer {...{count, filter, changeFilter}}/>
+           <Footer {...{count, filter, changeFilter, mode, changeMode}}/>
         </div>
       </div>
     </div>
