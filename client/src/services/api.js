@@ -50,7 +50,6 @@ export function getItemById(itemId) {
 /** update the status of a Todo list item */
 export function updateStatus(itemId, completed) {
   let checked = completed === true ? 1: 0 
-  console.log(completed, 'COMPLETED PARAM')
   return service.put(BASE_URL + `/todo/` + itemId, { body: JSON.stringify({"_is_done": checked } )})
 }
 
@@ -66,6 +65,5 @@ export function deleteItem(itemId) {
  * @return {Array}
  */
 export function addToList(list, data) {
-  console.log(data, 'ADD TO LIST DATA')
   return service.post(BASE_URL + `/todo`, { body: JSON.stringify(data) })
 }

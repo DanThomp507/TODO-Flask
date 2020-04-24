@@ -13,7 +13,7 @@ export default function Footer(props) {
       <div className="float-left">
         <div className='count'>
           {`${count} items left`}
-          </div>
+        </div>
       </div>
       <div className="float-right">
         <Filter {...{ filter, changeFilter }} />

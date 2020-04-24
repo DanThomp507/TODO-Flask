@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import './App.css';
-import TodoList from './components/TodoList'
+
 import {
   getAll,
   addToList,
   updateStatus,
   deleteItem
 } from './services/api';
+
 import { FILTER_ALL } from './services/filters';
-import { MODE_CREATE, MODE_NONE } from './services/modes';
+import {
+  MODE_CREATE,
+  MODE_NONE
+} from './services/modes';
+
+import TodoList from './components/TodoList';
 
 class App extends Component {
-  // intervalID;
   constructor(props) {
     super(props);
-    console.log(props)
     this.state = {
       list: [],
       filter: FILTER_ALL,
@@ -34,7 +38,6 @@ class App extends Component {
         this.setState({
           list: data
         })
-        // this.intervalID = setTimeout(this.fetchData.bind(this), 100);
       })
       // Catch any errors
       .catch(error => this.setState({ error, isLoading: false }));
@@ -51,8 +54,6 @@ class App extends Component {
       })
       // Catch any errors we hit and update the app
       .catch(error => this.setState({ error, isLoading: false }));
-
-
   }
 
   changeStatus = (itemId, completed) => {
@@ -95,6 +96,7 @@ class App extends Component {
 
       })
   }
+
   changeFilter = (filter) => {
     this.setState({
       filter
