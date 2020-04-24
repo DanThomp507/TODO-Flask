@@ -25,7 +25,7 @@ class App extends Component {
   //   clearTimeout(this.intervalID)
   // }
 
-  fetchData(){
+  fetchData = () => {
     let resp = getAll()
     resp.then(response => response.json())
       .then(data => {
@@ -54,17 +54,17 @@ class App extends Component {
   }
 
   changeStatus = (itemId, completed) => {
-    let response = updateStatus(itemId, completed);
-    response.then(response => response.json())
-      .then(data => {
-        if(!this.state.list.includes(data.id) && completed === 1){
-          let updatedList = [...this.state.list, ...data]
-          console.log(updatedList)
-          this.setState({ 
-            list: updatedList 
-          });
-        }
-      })
+    let response = updateStatus(itemId, completed).then(response => response.json())
+    response.then(data => {
+      if (!this.state.list.includes(data.id) && completed === 1) {
+        let updatedList = [...this.state.list, ...data]
+        this.setState({
+          list: updatedList
+        })
+          this.fetchData()
+          return null
+      }
+    })
   }
 
   deleteItem = (itemId) => {

@@ -6,15 +6,15 @@ class CheckBox extends Component {
     this.state = {
       checked: this.props.checked
     };
-    console.log(this.state.checked)
   }
 
   handleChange = (e) => {
     const { checked } = e.target;
 
-    this.setState({ 
-      checked 
+    this.setState({
+      checked
     });
+
     this.props.onChange(checked);
   }
 
