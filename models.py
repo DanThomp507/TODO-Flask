@@ -57,7 +57,6 @@ class ToDoModel:
         return self.list_items(where_clause)
 
     def create(self, params):
-        print(params)
         query = f'insert into {self.TABLENAME} ' \
                 f'(Title, Description, DueDate, UserId) ' \
                 f'values ("{params.get("Title")}","{params.get("Description")}",' \
@@ -69,7 +68,6 @@ class ToDoModel:
         query = f"UPDATE {self.TABLENAME} " \
                 f"SET _is_deleted =  {1} " \
                 f"WHERE id = {item_id}"
-        print(query)
         self.conn.execute(query)
         return self.list_items()
 
@@ -91,7 +89,6 @@ class ToDoModel:
         query = f"SELECT id, Title, Description, DueDate, _is_done " \
                 f"from {self.TABLENAME} WHERE _is_deleted != {1} " + \
             where_clause
-        print(query)
         result_set = self.conn.execute(query).fetchall()
         result = [{column: row[i]
                    for i, column in enumerate(result_set[0].keys())}
