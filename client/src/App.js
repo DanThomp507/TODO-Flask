@@ -9,7 +9,7 @@ import {
 } from './services/api';
 
 class App extends Component {
-  intervalID;
+  // intervalID;
   constructor() {
     super();
     this.state = {
@@ -21,9 +21,9 @@ class App extends Component {
     this.fetchData()
   }
 
-  componentWillUnmount() {
-    clearTimeout(this.intervalID)
-  }
+  // componentWillUnmount() {
+  //   clearTimeout(this.intervalID)
+  // }
 
   fetchData(){
     let resp = getAll()
@@ -32,14 +32,14 @@ class App extends Component {
         this.setState({
           list: data
         })
-        this.intervalID = setTimeout(this.fetchData.bind(this), 100);
+        // this.intervalID = setTimeout(this.fetchData.bind(this), 100);
       })
       // Catch any errors
       .catch(error => this.setState({ error, isLoading: false }));
   }
 
   addNew = (text) => {
-    let response = addToList([...this.state.list], { text, completed: false });
+    let response = addToList([...this.state.list], { Title: text, completed: false });
     response.then(response => response.json())
       .then(data => {
         let updatedList = [...this.state.list, ...data]

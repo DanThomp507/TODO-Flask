@@ -4,9 +4,7 @@ let PORT = 8888
 let BASE_URL = "http://localhost:" + PORT
 let headers = {
   "content-type": "application/json",
-  "accept": "*/*",
-  // 'Access-Control-Allow-Origin': "*",
-  // 'Access-Control-Allow-Headers': "*"
+  "accept": "*/*"
 }
 
 
@@ -73,8 +71,3 @@ export function addToList(list, data) {
   console.log(data, 'ADD TO LIST DATA')
   return service.post(BASE_URL + `/todo`, { body: JSON.stringify(data) })
 }
-
-// export function addToList(list, data) {
-//   let item = service.post(BASE_URL + `/todo`, { body: JSON.stringify(data) })
-//   return list.concat([item])
-// }
