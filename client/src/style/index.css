@@ -61,3 +61,43 @@ li.completed label {
 .delete {
     cursor: pointer;
 }
+
+footer {
+    border-top: 1px solid #ddd;
+    background-color:#007bff;;
+    margin: 0 -20px -10px -20px;
+    padding: 12px 20px;
+    position: relative;
+    color: white;
+}
+
+.filters {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.filters li {
+    display: inline-block;
+}
+
+.filters li button {
+    cursor: pointer;
+    color: inherit;
+    margin: 3px;
+    padding: 4px 8px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    background-color: #007bff;
+    border-color: white;
+}
+
+.filters li button.selected, .filters li button:hover {
+    border-color: red;
+}
+
+.filters li button.selected {
+    border-color: red;
+    color: white;
+}

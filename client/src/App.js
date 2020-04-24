@@ -8,6 +8,7 @@ import {
   updateStatus,
   deleteItem
 } from './services/api';
+import { FILTER_ALL } from './services/filters';
 
 class App extends Component {
   // intervalID;
@@ -15,7 +16,8 @@ class App extends Component {
     super(props);
     console.log(props)
     this.state = {
-      list: []
+      list: [],
+      filter: FILTER_ALL
     }
   }
 
@@ -91,11 +93,16 @@ class App extends Component {
 
       })
   }
+  changeFilter = (filter) => {
+    this.setState({filter});
+}
 
   render() {
     return (
       <div className="container">
         <TodoList
+          changeFilter={this.changeFilter}
+          filter={this.state.filter}
           onSuccess={this.handleStatusChange}
           list={this.state.list}
           addNew={this.addNew}
