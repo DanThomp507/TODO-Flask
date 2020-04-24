@@ -7,6 +7,10 @@ body {
     padding: 20px 20px 10px 20px;
     width: 600px;
     margin: 30px auto;
+    -webkit-box-shadow: 4px 4px 8px 0px rgba(0, 0, 0, 0.14);
+    -moz-box-shadow: 4px 4px 8px 0px rgba(0, 0, 0, 0.14);
+    box-shadow: 4px 4px 11px 0px rgba(0, 0, 0, 0.14);
+    border-radius: 5px;
 }
 
 .todolist h1 {
@@ -19,6 +23,14 @@ body {
     border-radius: 0;
 }
 
+.form-control.add-todo {
+    -webkit-box-shadow: 4px 4px 8px 0px rgba(0, 0, 0, 0.14);
+    -moz-box-shadow: 4px 4px 8px 0px rgba(0, 0, 0, 0.14);
+    box-shadow: 4px 4px 11px 0px rgba(0, 0, 0, 0.14);
+    border-radius: 5px;
+    margin-bottom: 2vh;
+}
+
 li.ui-state-default {
     background: #fff;
     border: none;
@@ -27,6 +39,11 @@ li.ui-state-default {
 
 li.ui-state-default:last-child {
     border-bottom: none;
+}
+
+li.completed label {
+    text-decoration: line-through;
+    color: #aaa;
 }
 
 .todo-footer {
@@ -38,4 +55,8 @@ li.ui-state-default:last-child {
 
 .mark-all-done {
     margin-top: 10px;
+}
+
+.delete {
+    cursor: pointer;
 }

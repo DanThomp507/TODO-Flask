@@ -9,19 +9,30 @@ import {
 } from './services/api';
 
 class App extends Component {
+  intervalID;
   constructor() {
     super();
     this.state = {
       list: []
     }
   }
+
   componentDidMount() {
+    this.fetchData()
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.intervalID)
+  }
+
+  fetchData(){
     let resp = getAll()
     resp.then(response => response.json())
       .then(data => {
         this.setState({
           list: data
         })
+        this.intervalID = setTimeout(this.fetchData.bind(this), 100);
       })
       // Catch any errors
       .catch(error => this.setState({ error, isLoading: false }));
@@ -35,7 +46,6 @@ class App extends Component {
         this.setState({
           list: updatedList
         });
-
       })
       // Catch any errors we hit and update the app
       .catch(error => this.setState({ error, isLoading: false }));
@@ -49,7 +59,10 @@ class App extends Component {
       .then(data => {
         if(!this.state.list.includes(data.id) && completed === 1){
           let updatedList = [...this.state.list, ...data]
-          this.setState({ list: updatedList });
+          console.log(updatedList)
+          this.setState({ 
+            list: updatedList 
+          });
         }
       })
   }
@@ -67,7 +80,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.list, 'LIST STATE')
     return (
       <div className="container">
         <TodoList
