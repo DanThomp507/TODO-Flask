@@ -5,10 +5,10 @@ export const FILTER_COMPLETED = 'completed';
 export function applyFilter(list, filter) {
   switch (filter) {
     case FILTER_COMPLETED:
-      return list.filter(item => item.completed === 1);
+      return list.filter(item => item._is_done === 1);
 
     case FILTER_ACTIVE:
-      return list.filter(item => item.completed !== 1);
+      return list.filter(item => item._is_done !== 1);
 
     default:
       return list;

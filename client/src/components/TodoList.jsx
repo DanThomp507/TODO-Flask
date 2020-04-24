@@ -3,11 +3,12 @@ import React from 'react';
 import Header from './Header';
 import FilteredList from './FilteredList';
 import Footer from './Footer'
+import { applyFilter } from '../services/filters'
 
 export default function TodoList(props) {
 
   const { list, changeStatus, deleteItem, addNew, filter, changeFilter } = props;
-  const items = list;
+  const items = applyFilter(list, filter);
   const count = list.length
   return (
     <div className="container">
