@@ -175,7 +175,7 @@ footer .buttons {
 }
 
 .alert.alert-info {
-    /* background-color: #007bff; */
     background-color: #FF8300;
     color: white;
+    text-align: center;
 }
