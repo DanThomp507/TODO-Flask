@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
-from service import ToDoService
+from service import ToDoService, UserService
 from models import Schema
 
 import json
@@ -21,6 +21,24 @@ def add_headers(response):
 def hello():
     return "TODO App API"
 
+# user routes
+@app.route("/users", methods=["GET"])
+def list_users():
+     return jsonify(UserService().list())
+
+@app.route("/users", methods=["POST"])
+def create_users():
+    return jsonify(UserService().create(request.get_json()))
+
+@app.route("/users/<item_id>", methods=["PUT"])
+def update_user(item_id):
+    return jsonify(UserService().update(item_id, request.get_json()))
+
+@app.route("/users/<item_id>", methods=["DELETE"])
+def delete_user(item_id):
+    return jsonify(UserService().delete(item_id))
+
+# To do routes
 @app.route("/todo", methods=["GET"])
 def list_todo():
     return jsonify(ToDoService().list())

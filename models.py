@@ -1,4 +1,6 @@
 import sqlite3
+from datetime import datetime, date
+from auth import hash_password, verify_password
 
 
 class Schema:
@@ -6,6 +8,7 @@ class Schema:
         self.conn = sqlite3.connect('todo.db')
         self.create_user_table()
         self.create_to_do_table()
+        # self.update_user_table()
 
     def __del__(self):
         self.conn.commit()
@@ -38,6 +41,13 @@ class Schema:
         );
         """
         self.conn.execute(query)
+
+    # def update_user_table(self): 
+    #     query = """
+    #     ALTER TABLE "User" 
+    #     ADD COLUMN password text;
+    #     """
+    #     self.conn.execute(query)
 
 
 class ToDoModel:
@@ -96,12 +106,60 @@ class ToDoModel:
         return result
 
 
-class User:
+class UserModel:
     TABLENAME = "User"
 
-    def create(self, name, email):
+
+    def __init__(self):
+        self.conn = sqlite3.connect('todo.db')
+        self.conn.row_factory = sqlite3.Row
+
+    def __del__(self):
+        # body of destructor
+        self.conn.commit()
+        self.conn.close()
+    
+    def get_by_id(self, _id):
+        where_clause = f"AND id={_id}"
+        return self.list_items(where_clause)
+
+    def create(self, params):
+        hashed_password = hash_password(params.get("password"))
         query = f'insert into {self.TABLENAME} ' \
-                f'(Name, Email) ' \
-                f'values ({name},{email})'
+                f'(Name, Email, CreatedOn, password) ' \
+                f'values ("{params.get("Name")}","{params.get("Email")}",' \
+                f'"{datetime.now()}","{hashed_password}")'
         result = self.conn.execute(query)
+        return self.get_by_id(result.lastrowid)
+    
+    def update(self, item_id, update_dict):
+        """
+        column: value
+        Name: new name
+        Email: new email
+        password: new password
+        """
+        set_query = " ".join([f'{column} = {value}'
+                              for column, value in update_dict.items()])
+
+        query = f"UPDATE {self.TABLENAME} " \
+                f"SET {set_query} " \
+                f"WHERE _id = {item_id}"
+        self.conn.execute(query)
+        return self.get_by_id(item_id)
+    
+
+    def list_items(self, where_clause=""):
+        query = f"SELECT _id, Name, Email, CreatedOn, password " \
+                f"from {self.TABLENAME} "
+        result_set = self.conn.execute(query).fetchall()
+        result = [{column: row[i]
+                   for i, column in enumerate(result_set[0].keys())}
+                  for row in result_set]
         return result
+    
+    def delete(self, item_id):
+        query = f"DELETE FROM {self.TABLENAME} " \
+                f"WHERE _id = {item_id}"
+        self.conn.execute(query)
+        return self.list_items()
