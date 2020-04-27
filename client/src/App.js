@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom'
+import { Link, Route, withRouter } from "react-router-dom";
 import './App.css';
 
 import {
@@ -10,12 +10,15 @@ import {
 } from './services/api';
 
 import { FILTER_ALL } from './services/filters';
+
 import {
   MODE_CREATE,
   MODE_NONE
 } from './services/modes';
 
 import TodoList from './components/TodoList';
+import RegisterForm from "./components/RegisterForm";
+import LoginForm from "./components/LoginForm";
 
 class App extends Component {
   constructor(props) {
@@ -23,7 +26,20 @@ class App extends Component {
     this.state = {
       list: [],
       filter: FILTER_ALL,
-      mode: MODE_CREATE
+      mode: MODE_CREATE,
+      registerFormData: {
+        username: "",
+        email: "",
+        password: "",
+        isLocal: "",
+        avatar: ""
+      },
+      currentUser: null,
+      toggleLogin: true,
+      loginFormData: {
+        email: "",
+        password: ""
+      },
     }
   }
 
@@ -109,19 +125,72 @@ class App extends Component {
     });
   }
 
+  handleLoginClick = (e) => {
+    e.preventDefault();
+    console.log("I want to register: handleLoginClick button".toggleLogin);
+    this.setState((prevState, newState) => ({
+      toggleLogin: !prevState.toggleLogin
+    }));
+  }
+
   render() {
     return (
       <div className="container">
-        <TodoList
-          mode={this.state.mode}
-          changeMode={this.changeMode}
-          changeFilter={this.changeFilter}
-          filter={this.state.filter}
-          onSuccess={this.handleStatusChange}
-          list={this.state.list}
-          addNew={this.addNew}
-          changeStatus={this.changeStatus}
-          deleteItem={this.deleteItem}
+        <Route
+          exact
+          path="/"
+          render={props => (
+            <>
+              <LoginForm
+                {...props}
+                show={this.state.currentUser}
+                toggle={this.state.toggleLogin}
+                onChange={this.handleLoginFormChange}
+                onSubmit={this.handleLogin}
+                email={this.state.loginFormData.email}
+                password={this.state.loginFormData.password}
+                onClick={this.handleLoginClick}
+              />
+              <RegisterForm
+                {...props}
+                userData={""}
+                title={"Register User"}
+                onClick={this.handleLoginClick}
+                show={this.state.currentUser}
+                toggle={this.state.toggleLogin}
+                onChange={this.handleRegisterFormChange}
+                onSubmit={this.handleRegister}
+                username={this.state.registerFormData.username}
+                email={this.state.registerFormData.email}
+                avatar={this.state.registerFormData.avatar}
+                isLocal={this.state.registerFormData.isLocal}
+                password={this.state.registerFormData.password}
+                submitButtonText="Submit"
+                backButtonText="Back to Login"
+                passwordAsk={"y"}
+                toggleLocal={this.state.handleToggleLocalRegister}
+              />
+            </>
+          )}
+        />
+
+        <Route
+          exact
+          path="/home"
+          render={props => (
+            <TodoList
+              {...props}
+              mode={this.state.mode}
+              changeMode={this.changeMode}
+              changeFilter={this.changeFilter}
+              filter={this.state.filter}
+              onSuccess={this.handleStatusChange}
+              list={this.state.list}
+              addNew={this.addNew}
+              changeStatus={this.changeStatus}
+              deleteItem={this.deleteItem}
+            />
+          )}
         />
       </div>
     );
