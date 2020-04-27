@@ -1,5 +1,4 @@
-let PORT = 8888
-let BASE_URL = "http://localhost:" + PORT
+let BASE_URL = "https://infinite-eyrie-95218.herokuapp.com/"
 let headers = {
   "content-type": "application/json",
   "accept": "*/*"
