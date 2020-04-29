@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Route, withRouter } from "react-router-dom";
+import { Link, Route, withRouter } from 'react-router-dom';
 import './App.css';
 
 import {
@@ -17,8 +17,8 @@ import {
 } from './services/modes';
 
 import TodoList from './components/TodoList';
-import RegisterForm from "./components/RegisterForm";
-import LoginForm from "./components/LoginForm";
+import RegisterForm from './components/forms/RegisterForm';
+import LoginForm from './components/forms/LoginForm';
 
 class App extends Component {
   constructor(props) {
@@ -28,17 +28,17 @@ class App extends Component {
       filter: FILTER_ALL,
       mode: MODE_CREATE,
       registerFormData: {
-        username: "",
-        email: "",
-        password: "",
-        isLocal: "",
-        avatar: ""
+        username: '',
+        email: '',
+        password: '',
+        isLocal: '',
+        avatar: ''
       },
       currentUser: null,
       toggleLogin: true,
       loginFormData: {
-        email: "",
-        password: ""
+        email: '',
+        password: ''
       },
     }
   }
@@ -127,7 +127,7 @@ class App extends Component {
 
   handleLoginClick = (e) => {
     e.preventDefault();
-    console.log("I want to register: handleLoginClick button".toggleLogin);
+    console.log('I want to register: handleLoginClick button'.toggleLogin);
     this.setState((prevState, newState) => ({
       toggleLogin: !prevState.toggleLogin
     }));
@@ -135,10 +135,10 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className='container'>
         <Route
           exact
-          path="/"
+          path='/'
           render={props => (
             <>
               <LoginForm
@@ -153,8 +153,8 @@ class App extends Component {
               />
               <RegisterForm
                 {...props}
-                userData={""}
-                title={"Register User"}
+                userData={''}
+                title={'Register User'}
                 onClick={this.handleLoginClick}
                 show={this.state.currentUser}
                 toggle={this.state.toggleLogin}
@@ -165,9 +165,9 @@ class App extends Component {
                 avatar={this.state.registerFormData.avatar}
                 isLocal={this.state.registerFormData.isLocal}
                 password={this.state.registerFormData.password}
-                submitButtonText="Submit"
-                backButtonText="Back to Login"
-                passwordAsk={"y"}
+                submitButtonText='Submit'
+                backButtonText='Back to Login'
+                passwordAsk={'y'}
                 toggleLocal={this.state.handleToggleLocalRegister}
               />
             </>
@@ -176,7 +176,7 @@ class App extends Component {
 
         <Route
           exact
-          path="/home"
+          path='/home'
           render={props => (
             <TodoList
               {...props}

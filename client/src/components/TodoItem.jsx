@@ -13,7 +13,7 @@ export default function TodoItem(props) {
           <CheckBox key={data.id} checked={data._is_done} onChange={handleChange} /> {data.Title}
         </label>
         <div className='delete' style={{ float: "right" }}>
-        <button type="button" className="btn btn-primary" onClick={handleDelete}>Delete</button>
+        <button className="btn btn-primary" onClick={handleDelete}>Delete</button>
           {/* <button onClick={handleDelete}>Delete</button> */}
         </div>
       </div>
