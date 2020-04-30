@@ -1,4 +1,5 @@
-let BASE_URL = "https://infinite-eyrie-95218.herokuapp.com/"
+// let BASE_URL = "https://infinite-eyrie-95218.herokuapp.com"
+let BASE_URL = "http://localhost:8888"
 let headers = {
   "content-type": "application/json",
   "accept": "*/*"
@@ -15,6 +16,7 @@ const service = {
     options.method = options.method || "POST";
     options.headers = headers;
     options.mode = "cors"
+    options.json = true
     return fetch(url, options);
   },
 
@@ -32,6 +34,12 @@ const service = {
     return fetch(url, options);
   }
 };
+
+/**
+  |--------------------------------------------------
+  | Todo Actions
+  |--------------------------------------------------
+*/
 
 /**
  * Get the full list of items
@@ -64,5 +72,21 @@ export function deleteItem(itemId) {
  * @return {Array}
  */
 export function addToList(list, data) {
+  console.log(data)
   return service.post(BASE_URL + `/todo`, { body: JSON.stringify(data) })
+}
+
+  /**
+  |--------------------------------------------------
+  | User actions
+  |--------------------------------------------------
+  */
+
+ export function loginUser(data) {
+   console.log(data, 'USER DATA')
+  let response = service.post(BASE_URL + `/users/login`, {
+    body: JSON.stringify(data) 
+  })
+  .then(response => response.json())
+  return response
 }

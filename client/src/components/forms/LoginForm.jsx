@@ -1,7 +1,7 @@
 import React from "react";
 
 export default props => {
-  const { toggle, show, email, password, onChange, onSubmit, onClick } = props;
+  const { toggle, show, Email, password, onChange, onSubmit, onClick } = props;
   const showLogin = !show && toggle;
   return (
     showLogin && (
@@ -13,10 +13,10 @@ export default props => {
               <input
                 type="text"
                 onChange={onChange}
-                name="email"
-                id="email"
+                name="Email"
+                id="Email"
                 placeholder="Enter your email"
-                value={email}
+                value={Email}
               />
             </div>
             <div>

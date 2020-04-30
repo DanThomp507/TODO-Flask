@@ -178,7 +178,10 @@ class UserModel:
         if verify_password(result_set['password'], password):
             access_token = create_access_token(
                 identity={'Name': result_set['Name'], 'Email': result_set['Email']})
-            result = access_token
+            result = { 'data': {
+            'access_token': access_token
+            }
+            }
         else:
             result = {"error": "Invalid email and password"}
         return result

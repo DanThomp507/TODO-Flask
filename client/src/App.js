@@ -6,7 +6,8 @@ import {
   getAll,
   addToList,
   updateStatus,
-  deleteItem
+  deleteItem,
+  loginUser
 } from './services/api';
 
 import { FILTER_ALL } from './services/filters';
@@ -29,15 +30,13 @@ class App extends Component {
       mode: MODE_CREATE,
       registerFormData: {
         username: '',
-        email: '',
-        password: '',
-        isLocal: '',
-        avatar: ''
+        Email: '',
+        password: ''
       },
       currentUser: null,
       toggleLogin: true,
       loginFormData: {
-        email: '',
+        Email: '',
         password: ''
       },
     }
@@ -61,6 +60,7 @@ class App extends Component {
 
   addNew = (text) => {
     let response = addToList([...this.state.list], { Title: text, completed: false });
+    console.log(response)
     response.then(response => response.json())
       .then(data => {
         let updatedList = [...this.state.list, ...data]
@@ -133,6 +133,56 @@ class App extends Component {
     }));
   }
 
+  handleLogin = (e) => {
+      e.preventDefault()
+  
+      const data = {
+        Email: this.state.loginFormData.Email,
+        password: this.state.loginFormData.password
+      }
+    
+      let response = loginUser(data)
+      response.then(response => {
+        localStorage.setItem('usertoken', response.data.access_token)
+        return response
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      this.props.history.push(`/home`)
+      // response.then(data => {
+      //   if (!data.error) {
+      //     this.props.history.push(`/home`)
+      //   }
+      // })
+    }
+
+
+  handleLoginFormChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name, value)
+    this.setState(prevState => ({
+      loginFormData: {
+        ...prevState.loginFormData,
+        [name]: value
+      }
+    }));
+    console.log(this.state.loginFormData, 'LOGIN STATE')
+  }
+
+
+  handleRegisterFormChange = (e) => {
+    const { name, value } = e.target;
+    console.log("handleRegisterChange name, val", name, value);
+    this.setState(prevState => ({
+      registerFormData: {
+        ...prevState.registerFormData,
+        [name]: value
+      }
+    }));
+  }
+
+
   render() {
     return (
       <div className='container'>
@@ -147,7 +197,7 @@ class App extends Component {
                 toggle={this.state.toggleLogin}
                 onChange={this.handleLoginFormChange}
                 onSubmit={this.handleLogin}
-                email={this.state.loginFormData.email}
+                Email={this.state.loginFormData.Email}
                 password={this.state.loginFormData.password}
                 onClick={this.handleLoginClick}
               />
@@ -161,7 +211,7 @@ class App extends Component {
                 onChange={this.handleRegisterFormChange}
                 onSubmit={this.handleRegister}
                 username={this.state.registerFormData.username}
-                email={this.state.registerFormData.email}
+                Email={this.state.registerFormData.Email}
                 avatar={this.state.registerFormData.avatar}
                 isLocal={this.state.registerFormData.isLocal}
                 password={this.state.registerFormData.password}
