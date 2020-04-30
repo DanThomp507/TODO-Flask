@@ -2,11 +2,18 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from service import ToDoService, UserService
 from models import Schema
+from datetime import datetime
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
+from flask_jwt_extended import (create_access_token)
 
 import json
 
 app = Flask(__name__)
 CORS(app)
+bcrypt = Bcrypt(app)
+jwt = JWTManager(app)
+app.config['JWT_SECRET_KEY'] = 'secret'
 
 
 @app.after_request
@@ -26,9 +33,13 @@ def hello():
 def list_users():
      return jsonify(UserService().list())
 
-@app.route("/users", methods=["POST"])
+@app.route("/users/register", methods=["POST"])
 def create_users():
     return jsonify(UserService().create(request.get_json()))
+
+@app.route("/users/login", methods=["POST"])
+def login_user():
+    return jsonify(UserService().login(request.get_json()))
 
 @app.route("/users/<item_id>", methods=["PUT"])
 def update_user(item_id):

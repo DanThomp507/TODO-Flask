@@ -18,6 +18,7 @@ class ToDoService:
         response = self.model.list_items()
         return response
 
+
 class UserService:
     def __init__(self):
         self.model = UserModel()
@@ -31,7 +32,9 @@ class UserService:
     def delete(self, item_id):
         return self.model.delete(item_id)
 
+    def login(self, params):
+        return self.model.login(params)
+
     def list(self):
         response = self.model.list_items()
         return response
-

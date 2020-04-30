@@ -1,6 +1,8 @@
 import sqlite3
 from datetime import datetime, date
 from auth import hash_password, verify_password
+from flask_jwt_extended import (create_access_token)
+from flask import Flask, request, jsonify
 
 
 class Schema:
@@ -34,17 +36,17 @@ class Schema:
     def create_user_table(self):
         query = """
         CREATE TABLE IF NOT EXISTS "User" (
-        _id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        Name TEXT NOT NULL, 
-        Email TEXT, 
+        _id INTEGER PRIMARY KEY AUTOINCREMENT,
+        Name TEXT NOT NULL,
+        Email TEXT,
         CreatedOn Date default CURRENT_DATE
         );
         """
         self.conn.execute(query)
 
-    # def update_user_table(self): 
+    # def update_user_table(self):
     #     query = """
-    #     ALTER TABLE "User" 
+    #     ALTER TABLE "User"
     #     ADD COLUMN password text;
     #     """
     #     self.conn.execute(query)
@@ -109,7 +111,6 @@ class ToDoModel:
 class UserModel:
     TABLENAME = "User"
 
-
     def __init__(self):
         self.conn = sqlite3.connect('todo.db')
         self.conn.row_factory = sqlite3.Row
@@ -118,7 +119,7 @@ class UserModel:
         # body of destructor
         self.conn.commit()
         self.conn.close()
-    
+
     def get_by_id(self, _id):
         where_clause = f"AND id={_id}"
         return self.list_items(where_clause)
@@ -131,7 +132,7 @@ class UserModel:
                 f'"{datetime.now()}","{hashed_password}")'
         result = self.conn.execute(query)
         return self.get_by_id(result.lastrowid)
-    
+
     def update(self, item_id, update_dict):
         """
         column: value
@@ -147,7 +148,6 @@ class UserModel:
                 f"WHERE _id = {item_id}"
         self.conn.execute(query)
         return self.get_by_id(item_id)
-    
 
     def list_items(self, where_clause=""):
         query = f"SELECT _id, Name, Email, CreatedOn, password " \
@@ -157,9 +157,28 @@ class UserModel:
                    for i, column in enumerate(result_set[0].keys())}
                   for row in result_set]
         return result
-    
+
     def delete(self, item_id):
         query = f"DELETE FROM {self.TABLENAME} " \
                 f"WHERE _id = {item_id}"
         self.conn.execute(query)
         return self.list_items()
+
+    def login(self, params):
+        email = params.get('Email')
+        password = params.get('password')
+        result = ""
+
+        query = f'SELECT * FROM User  ' \
+                f'where email = "{email}"'
+        result_set = self.conn.execute(query).fetchone()
+
+        print(result_set['password'])
+
+        if verify_password(result_set['password'], password):
+            access_token = create_access_token(
+                identity={'Name': result_set['Name'], 'Email': result_set['Email']})
+            result = access_token
+        else:
+            result = {"error": "Invalid email and password"}
+        return result
