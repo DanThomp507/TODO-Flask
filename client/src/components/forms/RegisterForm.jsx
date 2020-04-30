@@ -13,17 +13,30 @@ export default props => {
     backButtonText,
     passwordAsk,
     title,
-    userData
+    userData,
+    errors,
+    Name
   } = props;
 
   const showRegister = !show && !toggle;
   console.log("register user form props", userData);
+  console.log(errors)
   return (
     showRegister && (
       <div className="container">
         <div className="row">
           <form className="form">
             <h2>{title}</h2>
+            <div>
+              <input
+                type="text"
+                onChange={onChange}
+                name="Name"
+                id="Name"
+                value={Name}
+                placeholder="Enter your Name"
+              />
+            </div>
             <div>
               <input
                 type="text"

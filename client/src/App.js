@@ -7,7 +7,8 @@ import {
   addToList,
   updateStatus,
   deleteItem,
-  loginUser
+  loginUser,
+  registerUser
 } from './services/api';
 
 import { FILTER_ALL } from './services/filters';
@@ -20,16 +21,25 @@ import {
 import TodoList from './components/TodoList';
 import RegisterForm from './components/forms/RegisterForm';
 import LoginForm from './components/forms/LoginForm';
+import FormatFormErrors from './components/forms/FormatFormErrors'
+
+const FORM_FIELDS = [
+  'Name',
+  'Email',
+  'password'
+]
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       list: [],
+      errors: FormatFormErrors(null, FORM_FIELDS),
+      formFields: FORM_FIELDS,
       filter: FILTER_ALL,
       mode: MODE_CREATE,
       registerFormData: {
-        username: '',
+        Name: '',
         Email: '',
         password: ''
       },
@@ -143,18 +153,42 @@ class App extends Component {
     
       let response = loginUser(data)
       response.then(response => {
-        localStorage.setItem('usertoken', response.data.access_token)
+        console.log(response, 'RESPONSE')
+        if(!response.error){
+          let userData = {
+              id: response.data.userData.id,
+              Name: response.data.userData.Name,
+              Email: response.data.userData.Email,
+              CreatedOn: response.data.userData.CreatedOn
+          }
+          localStorage.setItem('usertoken', response.data.access_token)
+          localStorage.setItem('userData', JSON.stringify(userData))
+          this.props.history.push(`/home`)
+        }
         return response
       })
       .catch(err => {
         console.log(err)
+        switch (err.response.body.code) {
+        case 'app.logic.error':
+          //  General error
+          console.log(err.response.body.message)
+          break
+
+        case 'api.error.validation':
+          // Update the state with the errors, using _formatFormErrors
+          this.setState({
+            errors: FormatFormErrors(err, this.state.formFields)
+          })
+
+          if (typeof err.response.body.errors === 'string') {
+            console.log(err.response.body.errors)
+          } else {
+            console.log('error')
+          }
+          break
+        }
       })
-      this.props.history.push(`/home`)
-      // response.then(data => {
-      //   if (!data.error) {
-      //     this.props.history.push(`/home`)
-      //   }
-      // })
     }
 
 
@@ -182,8 +216,54 @@ class App extends Component {
     }));
   }
 
+  handleRegister = (e) => {
+    e.preventDefault()
+
+    const data = {
+      Name: this.state.registerFormData.Name,
+      Email: this.state.registerFormData.Email,
+      password: this.state.registerFormData.password
+    }
+  
+    let response = registerUser(data)
+    response.then(response => {
+      console.log(response, 'REGISTER RESPONSE')
+      if(!response.error){
+        localStorage.setItem('usertoken', response.data.access_token)
+        localStorage.setItem('userData', response.data.userData)
+        this.props.history.push(`/home`)
+      }
+      return response
+    })
+    .catch(err => {
+      console.log(err)
+      switch (err.response.body.code) {
+      case 'app.logic.error':
+        //  General error
+        console.log(err.response.body.message)
+        break
+
+      case 'api.error.validation':
+        // Update the state with the errors, using _formatFormErrors
+        this.setState({
+          errors: FormatFormErrors(err, this.state.formFields)
+        })
+
+        if (typeof err.response.body.errors === 'string') {
+          console.log(err.response.body.errors)
+        } else {
+          console.log('error')
+        }
+        break
+      }
+    })
+  }
+
+
 
   render() {
+    const { errors } = this.state
+    console.log(errors)
     return (
       <div className='container'>
         <Route
@@ -193,6 +273,7 @@ class App extends Component {
             <>
               <LoginForm
                 {...props}
+                errors={errors}
                 show={this.state.currentUser}
                 toggle={this.state.toggleLogin}
                 onChange={this.handleLoginFormChange}
@@ -205,15 +286,14 @@ class App extends Component {
                 {...props}
                 userData={''}
                 title={'Register User'}
+                errors={errors}
                 onClick={this.handleLoginClick}
                 show={this.state.currentUser}
                 toggle={this.state.toggleLogin}
                 onChange={this.handleRegisterFormChange}
                 onSubmit={this.handleRegister}
-                username={this.state.registerFormData.username}
+                Name={this.state.registerFormData.Name}
                 Email={this.state.registerFormData.Email}
-                avatar={this.state.registerFormData.avatar}
-                isLocal={this.state.registerFormData.isLocal}
                 password={this.state.registerFormData.password}
                 submitButtonText='Submit'
                 backButtonText='Back to Login'

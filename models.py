@@ -173,15 +173,22 @@ class UserModel:
                 f'where email = "{email}"'
         result_set = self.conn.execute(query).fetchone()
 
-        print(result_set['password'])
 
         if verify_password(result_set['password'], password):
             access_token = create_access_token(
                 identity={'Name': result_set['Name'], 'Email': result_set['Email']})
             result = { 'data': {
-            'access_token': access_token
+            'access_token': access_token,
+            'userData': {
+                'id': result_set['_id'],
+                'Name': result_set['Name'], 
+                'Email': result_set['Email'],
+                'CreatedOn': result_set['CreatedOn']
+            }
             }
             }
         else:
-            result = {"error": "Invalid email and password"}
+            result = {
+                "error": "Invalid email and password"
+            }
         return result

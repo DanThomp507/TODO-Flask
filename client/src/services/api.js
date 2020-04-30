@@ -90,3 +90,13 @@ export function addToList(list, data) {
   .then(response => response.json())
   return response
 }
+
+export function registerUser(data) {
+  console.log(data, 'REGISTER DATA')
+ let response = service.post(BASE_URL + `/users/register`, {
+   body: JSON.stringify(data) 
+ })
+ .then(response => response.json())
+ console.log(response)
+ return response
+}

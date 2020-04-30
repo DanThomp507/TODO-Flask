@@ -1,7 +1,7 @@
 import React from "react";
 
 export default props => {
-  const { toggle, show, Email, password, onChange, onSubmit, onClick } = props;
+  const { toggle, show, Email, password, onChange, onSubmit, onClick, errors } = props;
   const showLogin = !show && toggle;
   return (
     showLogin && (
