@@ -37,7 +37,7 @@ class Schema:
         query = """
         CREATE TABLE IF NOT EXISTS "User" (
         _id INTEGER PRIMARY KEY AUTOINCREMENT,
-        Name TEXT NOT NULL,
+        Name TEXT,
         Email TEXT,
         CreatedOn Date default CURRENT_DATE
         );
@@ -45,11 +45,13 @@ class Schema:
         self.conn.execute(query)
 
     # def update_user_table(self):
-    #     query = """
-    #     ALTER TABLE "User"
-    #     ADD COLUMN password text;
-    #     """
-    #     self.conn.execute(query)
+    #     # query = """
+    #     # ALTER TABLE "User"
+    #     # DROP COLUMN Name;
+    #     # """
+    #     # self.conn.execute(query)
+    #     self.conn.execute('ALTER TABLE "User" ADD COLUMN first_name text;')
+    #     self.conn.execute('ALTER TABLE "User" ADD COLUMN last_name text;')
 
 
 class ToDoModel:
@@ -132,6 +134,7 @@ class UserModel:
                 f'"{datetime.now()}","{hashed_password}")'
         result = self.conn.execute(query)
         return self.get_by_id(result.lastrowid)
+    
 
     def update(self, item_id, update_dict):
         """

@@ -30,6 +30,10 @@ body {
     text-align: center;
 }
 
+.form.register {
+    height: 70vh !important;
+}
+
 .todolist h1 {
     margin: 0;
     padding-bottom: 20px;

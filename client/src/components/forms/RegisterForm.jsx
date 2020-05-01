@@ -25,7 +25,7 @@ export default props => {
     showRegister && (
       <div className="container">
         <div className="row">
-          <form className="form">
+          <form className="form register">
             <h2>{title}</h2>
             <div>
               <input
