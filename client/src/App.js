@@ -23,7 +23,6 @@ import RegisterForm from './components/forms/RegisterForm';
 import LoginForm from './components/forms/LoginForm';
 import LogoutForm from './components/forms/LogoutForm';
 import FormatFormErrors from './components/forms/FormatFormErrors';
-import AppFooter from './components/AppFooter.jsx'
 
 const FORM_FIELDS = [
   'Name',

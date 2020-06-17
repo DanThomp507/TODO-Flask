@@ -28,9 +28,8 @@ export default function TodoList(props) {
         </div>
       </div>
 
-      <div style={{ 'display': 'flex', 'justifyContent': 'center'}}>
+      <div onClick={() => props.history.push(`/logout`)} style={{ 'display': 'flex', 'justifyContent': 'center'}}>
         <button className="btn btn-primary"> Sign out
-        <Link to='/logout'></Link>
         </button>
       </div>
 
