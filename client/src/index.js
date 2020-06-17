@@ -11,7 +11,7 @@ import './style/index.css';
 
 ReactDOM.render(
   <Router>
-    <App />,
+    <App />
   </Router>,
   document.getElementById('root')
 );

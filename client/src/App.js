@@ -21,7 +21,9 @@ import {
 import TodoList from './components/TodoList';
 import RegisterForm from './components/forms/RegisterForm';
 import LoginForm from './components/forms/LoginForm';
-import FormatFormErrors from './components/forms/FormatFormErrors'
+import LogoutForm from './components/forms/LogoutForm';
+import FormatFormErrors from './components/forms/FormatFormErrors';
+import AppFooter from './components/AppFooter.jsx'
 
 const FORM_FIELDS = [
   'Name',
@@ -44,6 +46,7 @@ class App extends Component {
         password: ''
       },
       currentUser: null,
+      userData: null,
       toggleLogin: true,
       loginFormData: {
         Email: '',
@@ -169,25 +172,6 @@ class App extends Component {
       })
       .catch(err => {
         console.log(err)
-        switch (err.response.body.code) {
-        case 'app.logic.error':
-          //  General error
-          console.log(err.response.body.message)
-          break
-
-        case 'api.error.validation':
-          // Update the state with the errors, using _formatFormErrors
-          this.setState({
-            errors: FormatFormErrors(err, this.state.formFields)
-          })
-
-          if (typeof err.response.body.errors === 'string') {
-            console.log(err.response.body.errors)
-          } else {
-            console.log('error')
-          }
-          break
-        }
       })
     }
 
@@ -229,8 +213,14 @@ class App extends Component {
     response.then(response => {
       console.log(response, 'REGISTER RESPONSE')
       if(!response.error){
+        let userData = {
+          id: response.data.userData.id,
+          Name: response.data.userData.Name,
+          Email: response.data.userData.Email,
+          CreatedOn: response.data.userData.CreatedOn
+      }
         localStorage.setItem('usertoken', response.data.access_token)
-        localStorage.setItem('userData', response.data.userData)
+        localStorage.setItem('userData', JSON.stringify(userData))
         this.props.history.push(`/home`)
       }
       return response
@@ -257,6 +247,15 @@ class App extends Component {
         break
       }
     })
+  }
+
+  handleLogout = () =>  {
+    localStorage.removeItem("jwt");
+    this.setState({
+      currentUser: null,
+      toggleLogin: true
+    });
+    this.props.history.push(`/`);
   }
 
 
@@ -322,6 +321,21 @@ class App extends Component {
             />
           )}
         />
+
+        <Route
+          exact
+          path="/logout"
+          render={props => (
+            <LogoutForm {...props} handleLogout={this.handleLogout} />
+          )}
+        />
+
+        {/* <AppFooter
+          handleLogout={this.handleLogout}
+          show={this.state.currentUser}
+          userData={this.state.userData}
+        /> */}
+
       </div>
     );
   }

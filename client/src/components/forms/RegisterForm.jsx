@@ -4,7 +4,7 @@ export default props => {
   const {
     show,
     toggle,
-    email,
+    Email,
     password,
     onChange,
     onSubmit,
@@ -41,9 +41,9 @@ export default props => {
               <input
                 type="text"
                 onChange={onChange}
-                name="email"
-                id="email"
-                value={email}
+                name="Email"
+                id="Email"
+                value={Email}
                 placeholder="Enter your email"
               />
             </div>

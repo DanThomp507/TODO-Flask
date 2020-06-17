@@ -33,25 +33,29 @@ class Schema:
 
         self.conn.execute(query)
 
+    # def create_user_table(self):
+    #     query = """
+    #     CREATE TABLE IF NOT EXISTS "User" (
+    #     _id INTEGER PRIMARY KEY AUTOINCREMENT,
+    #     Name TEXT,
+    #     Email TEXT,
+    #     CreatedOn Date default CURRENT_DATE
+    #     );
+    #     """
+    #     self.conn.execute(query)
     def create_user_table(self):
         query = """
-        CREATE TABLE IF NOT EXISTS "User" (
-        _id INTEGER PRIMARY KEY AUTOINCREMENT,
-        Name TEXT,
-        Email TEXT,
-        CreatedOn Date default CURRENT_DATE
+        CREATE TABLE IF NOT EXISTS `User` (
+	    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+        `first_name` varchar(255) NOT NULL,
+        `last_name` varchar(255) NOT NULL,
+  	    `username` varchar(50) NOT NULL,
+  	    `password` varchar(255) NOT NULL,
+  	    `email` varchar(100) NOT NULL,
+         PRIMARY KEY (`id`)
         );
         """
         self.conn.execute(query)
-
-    # def update_user_table(self):
-    #     # query = """
-    #     # ALTER TABLE "User"
-    #     # DROP COLUMN Name;
-    #     # """
-    #     # self.conn.execute(query)
-    #     self.conn.execute('ALTER TABLE "User" ADD COLUMN first_name text;')
-    #     self.conn.execute('ALTER TABLE "User" ADD COLUMN last_name text;')
 
 
 class ToDoModel:
@@ -134,7 +138,6 @@ class UserModel:
                 f'"{datetime.now()}","{hashed_password}")'
         result = self.conn.execute(query)
         return self.get_by_id(result.lastrowid)
-    
 
     def update(self, item_id, update_dict):
         """
@@ -175,23 +178,23 @@ class UserModel:
         query = f'SELECT * FROM User  ' \
                 f'where email = "{email}"'
         result_set = self.conn.execute(query).fetchone()
-
-
+        print(result_set)
         if verify_password(result_set['password'], password):
             access_token = create_access_token(
                 identity={'Name': result_set['Name'], 'Email': result_set['Email']})
-            result = { 'data': {
-            'access_token': access_token,
-            'userData': {
-                'id': result_set['_id'],
-                'Name': result_set['Name'], 
-                'Email': result_set['Email'],
-                'CreatedOn': result_set['CreatedOn']
-            }
+            result = {'data': {
+                'access_token': access_token,
+                'userData': {
+                    'id': result_set['_id'],
+                    'Name': result_set['Name'],
+                    'Email': result_set['Email'],
+                    'CreatedOn': result_set['CreatedOn']
+                }
             }
             }
         else:
             result = {
                 "error": "Invalid email and password"
             }
+            print(result)
         return result
