@@ -333,12 +333,6 @@ class App extends Component {
           )}
         />
 
-        {/* <AppFooter
-          handleLogout={this.handleLogout}
-          show={this.state.currentUser}
-          userData={this.state.userData}
-        /> */}
-
       </div>
     );
   }
