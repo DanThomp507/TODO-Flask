@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react'
 
 export default props => {
-  console.log(props)
-  // extract props here to avoid repetitious typing
   return (
-    <div className="user-form-container">
+    <div className='logout-container'>
       <h2>Logout</h2>
       <form className='logout'>
-        <button type="submit" onClick={props.handleLogout}>
-          Log Out
+        <div className='button-container'>
+          <button className='btn btn-primary' type='submit' onClick={props.handleLogout}>
+            Log Out
         </button>
-        <button type="submit" onClick={() => this.props.history.push(`/home`)}>
-          Cancel
+          <button className='btn btn-primary' type='submit' onClick={() => props.history.push(`/home`)}>
+            Cancel
         </button>
+        </div>
       </form>
     </div>
-  );
-};
+  )
+}
