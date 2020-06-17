@@ -191,7 +191,7 @@ class App extends Component {
 
   handleRegisterFormChange = (e) => {
     const { name, value } = e.target;
-    console.log("handleRegisterChange name, val", name, value);
+    console.log('handleRegisterChange name, val', name, value);
     this.setState(prevState => ({
       registerFormData: {
         ...prevState.registerFormData,
@@ -250,10 +250,14 @@ class App extends Component {
   }
 
   handleLogout = () =>  {
-    localStorage.removeItem("jwt");
+    localStorage.removeItem('userData');
+    localStorage.removeItem('usertoken');
     this.setState({
       currentUser: null,
-      toggleLogin: true
+      toggleLogin: true,
+      userData: null,
+      loginFormData: '',
+      registerFormData: ''
     });
     this.props.history.push(`/`);
   }
@@ -324,7 +328,7 @@ class App extends Component {
 
         <Route
           exact
-          path="/logout"
+          path='/logout'
           render={props => (
             <LogoutForm {...props} handleLogout={this.handleLogout} />
           )}
