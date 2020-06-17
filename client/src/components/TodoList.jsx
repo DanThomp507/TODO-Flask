@@ -27,9 +27,13 @@ export default function TodoList(props) {
           <Footer {...{ count, filter, changeFilter, mode, changeMode }} />
         </div>
       </div>
-      <button>
-        <Link to='/logout'>Logout</Link>
-      </button>
+
+      <div style={{ 'display': 'flex', 'justifyContent': 'center'}}>
+        <button className="btn btn-primary"> Sign out
+        <Link to='/logout'></Link>
+        </button>
+      </div>
+
     </div>
   );
 }
